@@ -9,21 +9,21 @@ head(counts_data)
 
 # read in sample info
 
-codData <- read.csv("data/sample_info.csv")
+colData <- read.csv("data/sample_info.csv")
 
 # checking
 
-all(colnames(counts_data) %in% rownames(codData))
+all(colnames(counts_data) %in% rownames(colData))
 
 # same order?
 
-all(colnames(counts_data) == rownames(codData))
+all(colnames(counts_data) == rownames(colData))
 
 
 # construct deseqDataSet object
 
 dds <- DESeqDataSetFromMatrix(countData = counts_data,
-                       colData = codData,
+                       colData = colData,
                        design = ~ dexamethasone
                        )
 dds
@@ -35,6 +35,47 @@ keep <- rowSums(counts(dds)) >= 10
 dds <- dds[keep,]
 
 dds
+
+
+# set the factor level
+
+dds$dexamethasone <- relevel(dds$dexamethasone, ref = "untreated" )
+
+dds$dexamethasone
+
+
+# NOTE!!! need to collapse technical replicates before run DEseq2
+# run DEseq
+
+dds <- DESeq(dds)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
