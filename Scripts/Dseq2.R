@@ -48,10 +48,25 @@ dds$dexamethasone
 # run DEseq
 
 dds <- DESeq(dds)
+res <- results(dds)
+
+res
 
 
+# exploring result
+
+summary(res)
+
+res0.01 <- results(dds, alpha = 0.01)
+
+summary(res0.01)
 
 
+# visualization
+
+# MA plot
+
+plotMA(res0.01)
 
 
 
